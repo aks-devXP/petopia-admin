@@ -14,6 +14,11 @@ import ProviderDashboard from "views/provider/dashboard";
 import Schedule from "views/provider/schedule";
 import History from "views/provider/schedule/components/History";
 import ServiceProfile from "views/provider/profile";
+import EditorPage from "views/provider/profile/EditorPage";
+import NgoDashboard from "views/ngo/dashboard";
+import NgoProfile from "views/ngo/profile";
+import NgoManageQuery from "views/ngo/manage-query";
+import NgoEditor from "views/ngo/profile/EditorPage";
 // Auth Imports
 import SignIn from "views/auth/SignIn";
 
@@ -25,7 +30,9 @@ import {
   MdOutlineSchedule,
   MdWorkspaces,
   MdManageAccounts,
-  MdSpaceDashboard
+  MdSpaceDashboard,
+  MdVolunteerActivism,
+  MdQuestionAnswer,
 } from "react-icons/md";
 import { FaCalendarCheck } from "react-icons/fa";
 
@@ -123,6 +130,52 @@ const routes = [
     path: "profile",
     icon: <MdPerson className="h-6 w-6" />,
     component: <ServiceProfile />,
+    showInSidebar: true,
+    showInNavbar: true,
+  },
+  {
+    name: "Edit Profile",
+    layout: "/provider",
+    path: "profile/edit",
+    icon: <MdPerson className="h-6 w-6" />,
+    component: <EditorPage />,
+    showInSidebar: false,
+    showInNavbar: false,
+  },
+  // ----------------- NGO ROUTES -----------------
+  {
+    name: "Dashboard",
+    layout: "/ngo",
+    path: "dashboard",
+    icon: <MdSpaceDashboard className="h-6 w-6" />,
+    component: <NgoDashboard />,
+    showInSidebar: true,
+    showInNavbar: true,
+  },
+  {
+    name: "Profile",
+    layout: "/ngo",
+    path: "profile",
+    icon: <MdVolunteerActivism className="h-6 w-6" />,
+    component: <NgoProfile />,
+    showInSidebar: true,
+    showInNavbar: true,
+  },
+  {
+    name: "Edit Profile",
+    layout: "/ngo",
+    path: "editor",
+    icon: <MdVolunteerActivism className="h-6 w-6" />,
+    component: <NgoEditor />,
+    showInSidebar: false,
+    showInNavbar: false,
+  },
+  {
+    name: "Manage Query",
+    layout: "/ngo",
+    path: "manage-query",
+    icon: <MdQuestionAnswer className="h-6 w-6" />,
+    component: <NgoManageQuery />,
     showInSidebar: true,
     showInNavbar: true,
   },

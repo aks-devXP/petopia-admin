@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AdminLayout from "layouts/admin";
 import AuthLayout from "layouts/auth";
 import ProviderLayout from "layouts/provider";
+import NgoLayout from "layouts/ngo";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Route path="auth/*" element={<AuthLayout />} />
       <Route path="admin/*" element={<AdminLayout />} />
       <Route path="provider/*" element={<ProviderLayout />} />
+      <Route path="ngo/*" element={<NgoLayout />} />
       <Route path="/" element={<Navigate to="/admin" replace />} />
     </Routes>
   );

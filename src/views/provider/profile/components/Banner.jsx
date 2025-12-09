@@ -1,10 +1,53 @@
-import React, { useRef } from "react";
-import { MdEdit, MdCameraAlt } from "react-icons/md";
+import React, { useEffect, useRef, useState } from "react";
+import { MdEdit, MdCameraAlt, MdLocationOn } from "react-icons/md";
 import Card from "components/card";
 
-const Banner = ({ profileData, onImageUpload }) => {
+const resolveImage = (value) => {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+  if (value instanceof File) return URL.createObjectURL(value);
+  return "";
+};
+
+const Banner = ({ profileData, onImageUpload, onEdit }) => {
   const avatarInputRef = useRef(null);
   const bannerInputRef = useRef(null);
+  const [bannerPreview, setBannerPreview] = useState(
+    resolveImage(profileData.banner)
+  );
+  const [avatarPreview, setAvatarPreview] = useState(
+    resolveImage(profileData.avatar || profileData.profileImage)
+  );
+
+  useEffect(() => {
+    setBannerPreview((prev) => {
+      if (prev && prev.startsWith("blob:")) {
+        URL.revokeObjectURL(prev);
+      }
+      return resolveImage(profileData.banner);
+    });
+  }, [profileData.banner]);
+
+  useEffect(() => {
+    setAvatarPreview((prev) => {
+      if (prev && prev.startsWith("blob:")) {
+        URL.revokeObjectURL(prev);
+      }
+      return resolveImage(profileData.avatar || profileData.profileImage);
+    });
+  }, [profileData.avatar, profileData.profileImage]);
+
+  useEffect(
+    () => () => {
+      if (bannerPreview && bannerPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(bannerPreview);
+      }
+      if (avatarPreview && avatarPreview.startsWith("blob:")) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+    },
+    [avatarPreview, bannerPreview]
+  );
 
   const handleAvatarClick = () => {
     avatarInputRef.current?.click();
@@ -33,7 +76,7 @@ const Banner = ({ profileData, onImageUpload }) => {
       {/* Background and profile */}
       <div
         className="relative mt-1 flex h-32 w-full justify-center rounded-xl bg-cover group cursor-pointer"
-        style={{ backgroundImage: `url(${profileData.banner})` }}
+        style={{ backgroundImage: `url(${bannerPreview})` }}
         onClick={handleBannerClick}
       >
         {/* Banner edit overlay */}
@@ -42,6 +85,23 @@ const Banner = ({ profileData, onImageUpload }) => {
             <MdCameraAlt className="text-xl" />
             <span className="text-sm font-medium">Edit Banner</span>
           </div>
+        </div>
+        <div className="absolute top-3 right-3 flex items-center gap-3">
+          <div className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-navy-700 shadow-sm">
+            {profileData.rating ? `Rating: ${profileData.rating} (${profileData.reviewCount || 0})` : 'Unrated'}
+          </div>
+          {onEdit && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit();
+              }}
+              className="rounded-lg bg-brand-500 px-3 py-1.5 text-xs font-semibold text-white shadow-md hover:bg-brand-600"
+            >
+              Edit Profile
+            </button>
+          )}
         </div>
 
         {/* Hidden file input for banner */}
@@ -57,7 +117,7 @@ const Banner = ({ profileData, onImageUpload }) => {
         <div className="absolute -bottom-12 flex h-[87px] w-[87px] items-center justify-center rounded-full border-[4px] border-white bg-pink-400 dark:!border-navy-700 group/avatar cursor-pointer">
           <img 
             className="h-full w-full rounded-full object-cover" 
-            src={profileData.avatar} 
+            src={avatarPreview} 
             alt="Profile" 
             onClick={(e) => {
               e.stopPropagation();
@@ -92,7 +152,22 @@ const Banner = ({ profileData, onImageUpload }) => {
         <h4 className="text-xl font-bold text-navy-700 dark:text-white">
           {profileData.firstName} {profileData.lastName}
         </h4>
-        <p className="text-base font-normal text-gray-600">{profileData.role}</p>
+        <p className="text-base font-normal text-gray-600">
+          {profileData.role || profileData.serviceType || 'Service Provider'}
+        </p>
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-navy-700">
+          {profileData.serviceType && (
+            <span className="rounded-full bg-white px-3 py-1 shadow-sm">
+              {profileData.serviceType.charAt(0).toUpperCase() + profileData.serviceType.slice(1)}
+            </span>
+          )}
+          {profileData.location && (
+            <span className="rounded-full bg-white px-3 py-1 shadow-sm flex items-center gap-1">
+              <MdLocationOn className="text-[12px]" />
+              {profileData.location}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="mt-6 mb-3 flex gap-4 md:!gap-14">

@@ -4,13 +4,13 @@ import Navbar from "components/navbar";
 import Sidebar from "components/sidebar";
 import Footer from "components/footer/Footer";
 import routes from "routes.js";
-import { ProviderProfileProvider } from "context/ProviderProfileContext";
+import { NgoProfileProvider } from "context/NgoProfileContext";
 
-export default function ProviderLayout(props) {
+export default function NgoLayout(props) {
   const { ...rest } = props;
   const location = useLocation();
   const [open, setOpen] = React.useState(true);
-  const [currentRoute, setCurrentRoute] = React.useState("Main Dashboard");
+  const [currentRoute, setCurrentRoute] = React.useState("NGO Dashboard");
 
   React.useEffect(() => {
     window.addEventListener("resize", () =>
@@ -23,7 +23,7 @@ export default function ProviderLayout(props) {
   }, [location.pathname]);
 
   const getActiveRoute = (routes) => {
-    let activeRoute = "Main Dashboard";
+    let activeRoute = "NGO Dashboard";
     for (let i = 0; i < routes.length; i++) {
       if (
         window.location.href.indexOf(routes[i].layout + "/" + routes[i].path) !==
@@ -47,10 +47,9 @@ export default function ProviderLayout(props) {
     return activeNavbar;
   };
 
-  // Recursively render provider routes including children
   const getRoutes = (routes) => {
     return routes.flatMap((prop, key) => {
-      if (prop.layout === "/provider") {
+      if (prop.layout === "/ngo") {
         let elements = [
           <Route
             key={prop.layout + prop.path}
@@ -78,16 +77,14 @@ export default function ProviderLayout(props) {
   document.documentElement.dir = "ltr";
 
   return (
-    <ProviderProfileProvider>
+    <NgoProfileProvider>
       <div className="flex h-full w-full">
-        {/* Sidebar */}
         <Sidebar
           open={open}
           onClose={() => setOpen(false)}
-          routes={routes}
+          routes={routes.filter((r) => r.layout === "/ngo")}
         />
 
-        {/* Navbar & Main Content */}
         <div className="h-full w-full bg-lightPrimary dark:!bg-navy-900">
           <main className="mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]">
             <div className="h-full">
@@ -95,16 +92,15 @@ export default function ProviderLayout(props) {
                 onOpenSidenav={() => setOpen(true)}
                 logoText={"React"}
                 brandText={currentRoute}
-                secondary={getActiveNavbar(routes)}
+                secondary={getActiveNavbar(routes.filter((r) => r.layout === "/ngo"))}
                 {...rest}
               />
               <div className="pt-5 mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
                 <Routes>
                   {getRoutes(routes)}
-                  {/* default redirect */}
                   <Route
                     path="/"
-                    element={<Navigate to="/provider/dashboard" replace />}
+                    element={<Navigate to="/ngo/dashboard" replace />}
                   />
                 </Routes>
               </div>
@@ -115,6 +111,6 @@ export default function ProviderLayout(props) {
           </main>
         </div>
       </div>
-    </ProviderProfileProvider>
+    </NgoProfileProvider>
   );
 }
