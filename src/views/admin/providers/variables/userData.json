@@ -1,0 +1,42 @@
+[
+  {
+    "userId": "U-1001",
+    "name": "Aditya Kumar",
+    "petsCount": 2,
+    "bookingCount": 5,
+    "cityArea": "Bengaluru · Indiranagar",
+    "joinedOn": "2025-01-12"
+  },
+  {
+    "userId": "U-1002",
+    "name": "Neha Sharma",
+    "petsCount": 1,
+    "bookingCount": 2,
+    "cityArea": "Mumbai · Andheri West",
+    "joinedOn": "2025-02-03"
+  },
+  {
+    "userId": "U-1003",
+    "name": "Rohit Verma",
+    "petsCount": 3,
+    "bookingCount": 7,
+    "cityArea": "Delhi · Dwarka",
+    "joinedOn": "2025-01-25"
+  },
+  {
+    "userId": "U-1004",
+    "name": "Sneha Iyer",
+    "petsCount": 1,
+    "bookingCount": 3,
+    "cityArea": "Chennai · T. Nagar",
+    "joinedOn": "2025-03-10"
+  },
+  {
+    "userId": "U-1005",
+    "name": "Karan Mehta",
+    "petsCount": 2,
+    "bookingCount": 1,
+    "cityArea": "Pune · Kothrud",
+    "joinedOn": "2025-02-18"
+  }
+]
