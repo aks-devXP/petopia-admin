@@ -31,7 +31,6 @@ import {
   MdWorkspaces,
   MdManageAccounts,
   MdSpaceDashboard,
-  MdVolunteerActivism,
   MdQuestionAnswer,
 } from "react-icons/md";
 import { FaCalendarCheck } from "react-icons/fa";
@@ -156,7 +155,7 @@ const routes = [
     name: "Profile",
     layout: "/ngo",
     path: "profile",
-    icon: <MdVolunteerActivism className="h-6 w-6" />,
+    icon: <MdPerson className="h-6 w-6" />,
     component: <NgoProfile />,
     showInSidebar: true,
     showInNavbar: true,
@@ -165,7 +164,7 @@ const routes = [
     name: "Edit Profile",
     layout: "/ngo",
     path: "editor",
-    icon: <MdVolunteerActivism className="h-6 w-6" />,
+    icon: <MdPerson className="h-6 w-6" />,
     component: <NgoEditor />,
     showInSidebar: false,
     showInNavbar: false,
